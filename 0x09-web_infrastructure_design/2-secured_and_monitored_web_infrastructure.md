@@ -1,6 +1,8 @@
 # Secured and Monitored Web Infrastructure
-[Visit Board](https://miro.com/app/board/uXjVMZGBNz4=/)
-![Image of a secured and monitored infrastructure]()
+
+![Image of a secured and monitored infrastructure](https://raw.githubusercontent.com/E-buez/alx-system_engineering-devops/master/0x09-web_infrastructure_design/2-secured_and_monitored_web_infrastructure.jpg)
+
+[Visit Board](https://miro.com/app/board/uXjVMZGBNz4=/?share_link_id=249443131853)
 
 ## Description
 
@@ -16,4 +18,4 @@ This is a 3-server web infrastructure that is secured, monitored, and serves enc
 
 + Terminating SSL at the load balancer level would leave the traffic between the load balancer and the web servers unencrypted.
 + Having one MySQL server is an issue because it is not scalable and can act as a single point of failure for the web infrastructure.
-+ Having servers with all the same components would make the components contend for resources on the server like CPU, Memory, I/O, etc., which can lead to poor performance and also make it difficult to locate the source of the problem. A setup such as this is not easily scalable. ](https://raw.githubusercontent.com/E-buez/alx-system_engineering-devops/master/0x09-web_infrastructure_design/2-secured_and_monitored_web_infrastructure.jpg)
++ Having servers with all the same components would make the components contend for resources on the server like CPU, Memory, I/O, etc., which can lead to poor performance and also make it difficult to locate the source of the problem. A setup such as this is not easily scalable.
