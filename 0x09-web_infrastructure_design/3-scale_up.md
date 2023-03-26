@@ -1,5 +1,5 @@
 # Scaled Up Web Infrastructure
-![Image of a scaled up web infrastructure](3-scale_up.jpg)
+![Image of a scaled up web infrastructure](https://raw.githubusercontent.com/E-buez/alx-system_engineering-devops/master/0x09-web_infrastructure_design/3-scale_up.jpg)
 
 [Visit Board](https://miro.com/app/board/uXjVMZFsKuA=/)
 
