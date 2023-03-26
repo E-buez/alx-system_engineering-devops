@@ -1,5 +1,5 @@
 # **Simple Web Stack**
-![0-simple_web_stack](https://user-images.githubusercontent.com/113893717/227799316-c2beb692-bdd1-464c-9258-cb6067a1604f.jpg)
+![0-simple_web_stack](https://raw.githubusercontent.com/E-buez/alx-system_engineering-devops/master/0x09-web_infrastructure_design/1-distributed_web_infrastructure.jpg)
 [Visit Board](https://miro.com/app/board/uXjVMZCiJUw=/)
 
 ## Description
