@@ -1,6 +1,12 @@
-# Fixes an nginx site that can't handle multiple concurrent requests
+# fixing nginx to accept and serve more requests
+
 exec { 'fix--for-nginx':
-  command => "bash -c \"sed -iE 's/^ULIMIT=.*/ULIMIT=\\\"-n 8192\\\"/' \
-/etc/default/nginx; service nginx restart\"",
-  path    => '/usr/bin:/usr/sbin:/bin'
+  command => 'sed -i "s/15/4096/" /etc/default/nginx',
+  path    => '/usr/local/bin/:/bin/'
+}
+
+# Restarting Nginx
+exec { 'nginx-restart':
+  command => 'nginx restart',
+  path    => '/etc/init.d/'
 }
