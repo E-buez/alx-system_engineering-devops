@@ -1,50 +1,59 @@
 #!/usr/bin/python3
-""" Module for a function that queries the Reddit API recursively."""
 
-
+import operator
 import requests
 
+def do_request(subreddit, after):
+    """ Do request to endopoint"""
+    url = 'https://www.reddit.com/r/{}/hot.json?limit=100&after={}'
+    userA = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0)\
+            Gecko/20100101 Firefox/76.0"
 
-def count_words(subreddit, word_list, after='', word_dict={}):
-    """ A function that queries the Reddit API parses the title of
-    all hot articles, and prints a sorted count of given keywords
-    (case-insensitive, delimited by spaces.
-    Javascript should count as javascript, but java should not).
-    If no posts match or the subreddit is invalid, it prints nothing.
+    hdr = {"User-Agent": userA}
+    response = requests.get(url.format(subreddit, after), headers=hdr)
+    return response
+
+
+def recurse(subreddit, hot_list=[], after=''):
+    """ do recursion while there are a next page of
+        posts
     """
+    res = do_request(subreddit, after)
+    if res.status_code != 200:
+        return None
 
-    if not word_dict:
-        for word in word_list:
-            if word.lower() not in word_dict:
-                word_dict[word.lower()] = 0
+    res = res.json()
+    after = res['data']['after']
+    for post in res['data']['children']:
+        hot_list.append(post['data']['title'])
 
     if after is None:
-        wordict = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
-        for word in wordict:
-            if word[1]:
-                print('{}: {}'.format(word[0], word[1]))
-        return None
+        return hot_list
+    return recurse(subreddit, hot_list, after)
 
-    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-    header = {'user-agent': 'redquery'}
-    parameters = {'limit': 100, 'after': after}
-    response = requests.get(url, headers=header, params=parameters,
-                            allow_redirects=False)
 
-    if response.status_code != 200:
-        return None
+def count_words(subreddit, word_list, i=0, hot_list=[], res={}):
+    
+    after = ''
+    subs = word_list[i].split(',')[0]
+    patterns = []
+    if len(hot_list) == 0:
+        hot_list = recurse(subreddit, hot_list, after)
 
-    try:
-        hot = response.json()['data']['children']
-        aft = response.json()['data']['after']
-        for post in hot:
-            title = post['data']['title']
-            lower = [word.lower() for word in title.split(' ')]
+    for el in hot_list:
+        split_line = el.split(' ')
+        for w in split_line:
+            if subs == w or subs.capitalize() == w:
+                patterns.append(w)
 
-            for word in word_dict.keys():
-                word_dict[word] += lower.count(word)
-
-    except Exception:
-        return None
-
-    count_words(subreddit, word_list, aft, word_dict)
+    res[subs] = len(patterns)
+    i += 1
+    
+    if i != len(word_list):
+        count_words(subreddit, word_list, i, hot_list, res)
+    else:
+        sort_res = {}
+        sort_res = dict(sorted(res.items(), key=operator.itemgetter(1), reverse=True))
+        for k,v in  sort_res.items():
+            if v > 0:
+                print('{}: {}'.format(k, v))
